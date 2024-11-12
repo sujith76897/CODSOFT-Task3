@@ -1,0 +1,107 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #1f1c2c, #928DAB);
+    overflow: hidden;
+    
+  }
+  
+  
+  .calculator {
+    width: 320px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #2e2e2e, #262626);
+    padding: 10px;
+    box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.5), -15px -15px 30px rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    transform-style: preserve-3d;
+    animation: calculatorGlow 6s infinite alternate ease-in-out;
+  }
+  
+  .display {
+    background: linear-gradient(145deg, #202020, #282828);
+    color: #c3ff99;
+    text-align: right;
+    padding: 20px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5), inset -5px -5px 10px rgba(255, 255, 255, 0.05);
+    animation: glowText 3s infinite alternate ease-in-out;
+  }
+  
+ 
+  .buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  
+  
+  button {
+    font-size: 1.5rem;
+    padding: 20px;
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    background: linear-gradient(145deg, #2b2b2b, #232323);
+    box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.3), -8px -8px 15px rgba(255, 255, 255, 0.05), 0px 0px 10px rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: linear-gradient(145deg, #333, #292929);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 12px 12px 20px rgba(0, 0, 0, 0.4), -12px -12px 20px rgba(255, 255, 255, 0.1), 0 0 15px rgba(255, 255, 255, 0.3);
+  }
+  
+  button:active {
+    transform: scale(0.95);
+    box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5), inset -5px -5px 10px rgba(255, 255, 255, 0.05);
+  }
+  
+  .zero {
+    grid-column: span 2;
+    border-radius: 50px;
+  }
+  
+  .equals {
+    background: linear-gradient(145deg, #ff9500, #e08400);
+    color: #fff;
+  }
+  
+  .equals:hover {
+    background: linear-gradient(145deg, #ffa500, #d67a00);
+  }
+  
+  @keyframes calculatorGlow {
+    0%, 100% {
+      box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.4), -10px -10px 20px rgba(255, 255, 255, 0.2);
+    }
+    50% {
+      box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.6), -15px -15px 30px rgba(255, 255, 255, 0.15);
+    }
+  }
+ 
+  @keyframes glowText {
+    0%, 100% {
+      color: #c3ff99;
+    }
+    50% {
+      color: #d4ffba;
+      text-shadow: 0 0 10px rgba(195, 255, 153, 0.7);
+    }
+  }
+  
