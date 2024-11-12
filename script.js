@@ -20,11 +20,12 @@ function inputNumber(num) {
 }
 
 function inputOperator(op) {
-  if (shouldResetDisplay && op !== '-') {
-    expression = currentInput;
+  if (/[\+\-\×\÷]$/.test(expression.trim())) {
+    expression = expression.trim().slice(0, -1) + ` ${op} `;
+  } else if (currentInput !== '' || op === '-') {
+    expression += ` ${op} `;
+    currentInput = '';
   }
-  expression += ` ${op} `;
-  currentInput = '';
   shouldResetDisplay = false;
   updateDisplay();
 }
@@ -36,44 +37,56 @@ function clearDisplay() {
 }
 
 function toggleSign() {
-  if (currentInput !== '0') {
+  if (currentInput !== '0' && currentInput !== '') {
     currentInput = currentInput.startsWith('-') ? currentInput.slice(1) : '-' + currentInput;
-    expression = expression.slice(0, -currentInput.length) + currentInput;
+    const lastNumMatch = expression.match(/-?\d+(\.\d+)?$/);
+    if (lastNumMatch) {
+      expression = expression.slice(0, -lastNumMatch[0].length) + currentInput;
+    }
     updateDisplay();
   }
 }
 
 function calculateResult() {
   try {
-    const result = eval(expression.replace('÷', '/').replace('×', '*'));
+    const safeExpression = expression.replace(/÷/g, '/').replace(/×/g, '*');
+    const result = eval(safeExpression);
     expression = result.toString();
     currentInput = expression;
     shouldResetDisplay = true;
   } catch (error) {
     expression = 'Error';
+    currentInput = '';
+    shouldResetDisplay = true;
   }
   updateDisplay();
 }
+
 document.querySelectorAll('button').forEach(button => {
   button.addEventListener('click', () => {
-    const buttonValue = button.textContent;
-    
-    if (!isNaN(buttonValue) || buttonValue === '.') {
-      if (buttonValue === '.' && currentInput.includes('.')) return;
+    const buttonType = button.getAttribute('data-type');
+    const buttonValue = button.getAttribute('data-value') || button.textContent;
+
+    if (buttonType === 'number') {
       inputNumber(buttonValue);
+    } else if (buttonType === 'operator') {
+      inputOperator(buttonValue);
     } else {
-      switch (buttonValue) {
-        case 'C':
+      switch (buttonType) {
+        case 'clear':
           clearDisplay();
           break;
-        case '+/-':
+        case 'sign':
           toggleSign();
           break;
-        case '=':
+        case 'equals':
           calculateResult();
           break;
-        default:
-          inputOperator(buttonValue);
+        case 'decimal':
+          if (!currentInput.includes('.')) {
+            inputNumber('.');
+          }
+          break;
       }
     }
   });
